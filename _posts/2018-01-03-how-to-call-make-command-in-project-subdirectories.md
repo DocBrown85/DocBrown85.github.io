@@ -5,6 +5,7 @@ title: How to Call Make Command in Project Subdirectories
 
 Oftentimes, when dealing with complex projects, there are several components we need to build and link to produce the final
 product.
+
 When dealing with such projects, it is common to organize components source code into subdirectories of the main project,
 for example:
 
@@ -21,7 +22,8 @@ project_main_dir
 ```
 
 When building code in such situations we need a way to call subdirectories Makefiles from the project root directory, namely
-'project_main_dir`.
+`project_main_dir`.
+
 We can do that with the following Makefile, which:
 
 1. Declares a list of all subdirectories that needs to be built.
