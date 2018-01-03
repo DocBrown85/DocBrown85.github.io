@@ -7,6 +7,7 @@ title: How To Build a Static Library With C++
 
 Organizing code in function libraries is a good practice that can help to avoid code duplication by increasing code reuse.
 
+```
 CXX=g++
 CXXFLAGS=-g -std=c++11 -Wall -pedantic
 INCLUDES=-I.
@@ -23,5 +24,6 @@ my_stuff_lib: my_stuff.o
 clean:
 	rm -f *.o
 	rm -f *.a
+```
 	
 ## Linking The Library
