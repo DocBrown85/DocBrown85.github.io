@@ -9,15 +9,15 @@ Organizing code in function libraries is a good practice that can help to avoid 
 
 Suppose to have a header file `my_stuff.h` with all declarations to be exposed as the library API, for example:
 
-```
+~~~
 #ifndef MY_STUFF_H_
-#define MY_STUFF_H
+#define MY_STUFF_H_
 
 int my_stuff_foo(int, int);
 
-#endif  // MY_STUFF_H
+#endif  // MY_STUFF_H_
+~~~
 
-```
 then we have the source code for `my_stuff_foo` function in `my_stuff.cc`:
 
 ```
