@@ -7,13 +7,13 @@ title: How To Build a Static Library With C++
 
 Organizing code in function libraries is a good practice that can help to avoid code duplication by increasing code reuse.
 
-Suppose to have a header file `my_stuff.hpp` with all declarations to be exposed as the library API, for example:
+Suppose to have a header file `my_stuff.h` with all declarations to be exposed as the library API, for example:
 
 ```
 int my_suff_foo(int, int);
 
 ```
-then we have the source code for `my_stuff_foo` function in `my_stuff.cpp`:
+then we have the source code for `my_stuff_foo` function in `my_stuff.cc`:
 
 ```
 int my_stuff_foo(int a, int b) {
@@ -27,10 +27,10 @@ int my_stuff_foo(int a, int b) {
 
 To build the library we need the following Makefile, which:
 
-1. Compiles `my_stuff.c` into `my_stuff.o`
+1. Compiles `my_stuff.cc` into `my_stuff.o`
 
 ```
-$(CXX) $(CXXFLAGS) -c my_stuff.c
+$(CXX) $(CXXFLAGS) -c my_stuff.cc
 ```
 
 2. Invokes the archiver `ar` to produce a static library (named libmystuff.a) out of the object file my_stuff.o.
@@ -45,13 +45,13 @@ Here's the complete source of the Makefile:
 ```
 CXX=g++
 CXXFLAGS=-g -std=c++11 -Wall -pedantic
-INCLUDES=-I.
+INCLUDES=-I./includes
 CXXFLAGS+=$(INCLUDES)
 
 all: my_stuff_lib
 
 my_stuff.o:
-	$(CXX) $(CXXFLAGS) -c my_stuff.c
+	$(CXX) $(CXXFLAGS) -c my_stuff.cc
 
 my_stuff_lib: my_stuff.o
 	ar rcs libmystuff.a my_stuff.o
@@ -80,7 +80,7 @@ Here's the source of the Makefile:
 ```
 CXX=g++
 CXXFLAGS=-g -std=c++11 -Wall -pedantic
-INCLUDES=-I. -I<path/to/my_stuff.hpp>
+INCLUDES=-I. -I<path/to/my_stuff.h>
 CXXFLAGS+=$(INCLUDES)
 LDLIBS=-lmystuff
 LIBS=-L<path/to/libmystuff.a>
@@ -90,7 +90,7 @@ all:
 my_cool_project: my_cool_project.o
 	$(CXX)							\
 	$(CXXFLAGS)						\
-	my_cool_project.cpp					\
+	my_cool_project.cc					\
 	-o							\
 	my_cool_project						\
 	$(LDLIBS)						\
