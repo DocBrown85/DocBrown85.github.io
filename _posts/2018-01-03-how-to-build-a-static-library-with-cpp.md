@@ -62,3 +62,41 @@ clean:
 ```
 	
 ## Linking The Library
+
+We now have our `libmystuff.a` file, which is basically a collection of all **object** files compiled into a single file.
+
+To use the functions we packed into `libmystuff.a` in our next project we have to **link** it. To link our library we need to
+tell the compiler its name and where it is located.
+
+To do this we use two Makefile variables:
+
+1. `LDLIBS`, which contains all libraries names we need to link.
+2. `LIBS`, which contains all non standard search paths to look for to find the libraries we need.
+
+Note we also need to tell the compiler where it's located the header file which contains all `libmystuff.a` APIs.
+
+Here's the source of the Makefile:
+
+```
+CXX=g++
+CXXFLAGS=-g -std=c++11 -Wall -pedantic
+INCLUDES=-I. -I<path/to/my_stuff.hpp>
+CXXFLAGS+=$(INCLUDES)
+LDLIBS=-lmystuff
+LIBS=-L<path/to/libmystuff.a>
+
+all: 
+
+my_cool_project: my_cool_project.o
+	$(CXX)							\
+	$(CXXFLAGS)						\
+	my_cool_project.cpp					\
+	-o							\
+	my_cool_project						\
+	$(LDLIBS)						\
+	$(LIBS)
+
+clean:
+	rm -f *.o
+	rm -f my_cool_project
+```
