@@ -1,0 +1,30 @@
+---
+layout: post
+title: How To Build a Static Library With C++
+---
+
+```
+CXX=g++
+CXXFLAGS=-g -std=c++11 -Wall -pedantic
+LDLIBS=-lprotobuf
+
+all: hello_message_proto hello_message_lib
+
+hello_message_proto:
+	protoc							\
+	--cpp_out=./proto-cpp					\
+	--js_out=import_style=commonjs,binary:./proto-js	\
+	./hello_message.proto
+
+hello_message.pb.o:
+	$(CXX) $(CXXFLAGS) -c proto-cpp/hello_message.pb.cc $(LDLIBS)
+
+hello_message_lib: hello_message.pb.o
+	ar rcs libhellomessage.a hello_message.pb.o
+
+clean:
+	rm -f hello_message.pb.o
+	rm -f libhellomessage.a
+	rm -f proto-cpp/*
+	rm -f proto-js/*
+ ```
