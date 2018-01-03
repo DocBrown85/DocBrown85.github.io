@@ -90,7 +90,7 @@ CXXFLAGS+=$(INCLUDES)
 LDLIBS=-lmystuff
 LIBS=-L<path/to/libmystuff.a>
 
-all: 
+all: my_cool_project
 
 my_cool_project: my_cool_project.o
 	$(CXX)							\
