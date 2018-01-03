@@ -3,28 +3,25 @@ layout: post
 title: How To Build a Static Library With C++
 ---
 
-```
+## Building a Static Library
+
+Organizing code in function libraries is a good practice that can help to avoid code duplication by increasing code reuse.
+
 CXX=g++
 CXXFLAGS=-g -std=c++11 -Wall -pedantic
-LDLIBS=-lprotobuf
+INCLUDES=-I.
+CXXFLAGS+=$(INCLUDES)
 
-all: hello_message_proto hello_message_lib
+all: my_stuff_lib
 
-hello_message_proto:
-	protoc							\
-	--cpp_out=./proto-cpp					\
-	--js_out=import_style=commonjs,binary:./proto-js	\
-	./hello_message.proto
+my_stuff.o:
+	$(CXX) $(CXXFLAGS) -c my_stuff.c
 
-hello_message.pb.o:
-	$(CXX) $(CXXFLAGS) -c proto-cpp/hello_message.pb.cc $(LDLIBS)
-
-hello_message_lib: hello_message.pb.o
-	ar rcs libhellomessage.a hello_message.pb.o
+my_stuff_lib: my_stuff.o
+	ar rcs libmystuff.a my_stuff.o
 
 clean:
-	rm -f hello_message.pb.o
-	rm -f libhellomessage.a
-	rm -f proto-cpp/*
-	rm -f proto-js/*
- ```
+	rm -f *.o
+	rm -f *.a
+	
+## Linking The Library
