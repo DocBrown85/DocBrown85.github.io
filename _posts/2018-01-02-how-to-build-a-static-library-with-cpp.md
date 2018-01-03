@@ -10,7 +10,12 @@ Organizing code in function libraries is a good practice that can help to avoid 
 Suppose to have a header file `my_stuff.h` with all declarations to be exposed as the library API, for example:
 
 ```
-int my_suff_foo(int, int);
+#ifndef MY_STUFF_H_
+#define MY_STUFF_H
+
+int my_stuff_foo(int, int);
+
+#endif  // MY_STUFF_H
 
 ```
 then we have the source code for `my_stuff_foo` function in `my_stuff.cc`:
@@ -99,4 +104,20 @@ my_cool_project: my_cool_project.o
 clean:
 	rm -f *.o
 	rm -f my_cool_project
+```
+This Makefile can be used to build `my_cool_project.cc` which can use all API functions exposed by `libmystuff.a`, for example:
+
+```
+#include <iostream>
+
+#include "my_stuff.h"
+
+int main(int argc, char* argv[]) {
+
+    int result = my_stuff_foo(42, 23);
+
+    std::cout << "my_stuff_foo() result is:" << result << std::endl;
+
+    return 0;
+}
 ```
