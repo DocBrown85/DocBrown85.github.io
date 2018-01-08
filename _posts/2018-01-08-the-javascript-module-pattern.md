@@ -16,8 +16,8 @@ overall maintainability and making code more robust.
 
 The **Module** pattern relies on the concepts of *Immediatly Invoked Function Expression* and *Closure*.
 
-* An *Immediatly Invoked Function Expression* is a JavaScript function that runs as soon as it is defined.
-* A *closure* is a function having access to the parent scope, even after the parent function has closed.
+* An *Immediatly Invoked Function Expression* (*IIFE*) is a JavaScript function that runs as soon as it is defined.
+* A *Closure* is a function having access to the parent scope, even after the parent function has closed.
 
 An example of *Immediatly Invoked Function Expression* is the following:
 
