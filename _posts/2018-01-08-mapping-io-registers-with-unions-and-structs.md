@@ -18,7 +18,7 @@ register can be viewed as follows:
 
 ```
 
-We can model the register using `uninion` and `struct` constructs in a way we can access both single fields and the whole RGB value
+We can model the register using `union` and `struct` constructs in a way we can access both single fields or the whole RGB value
 according to our need:
 
 ```
