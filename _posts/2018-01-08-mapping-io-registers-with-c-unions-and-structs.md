@@ -79,3 +79,5 @@ void main(void) {
   
 }
 ```
+The main advantage of this approach over raw memory reference is that it provides a more clean and maintainable code, the counterpart is 
+that more assembly code is required to write a memory location when compared to the raw memory reference version.
