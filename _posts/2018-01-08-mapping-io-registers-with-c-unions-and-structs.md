@@ -29,8 +29,8 @@ typedef union mmap_io_rgb_reg_u {
   
     volatile unsigned long :8;  // 8-bit unused space
     volatile unsigned long r:8;
-    volatile unsigned long g:8
-    volatile unsigned long b:8
+    volatile unsigned long g:8;
+    volatile unsigned long b:8;
     
   } FIELDS;
   
