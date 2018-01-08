@@ -69,13 +69,13 @@ void main(void) {
   rgb_reg_ptr = (RGB_REG*) RGB_IO_REG;
   
   // we can set single fields
-  rgb_reg_ptr.FIELDS.r = 255;
-  rgb_reg_ptr.FIELDS.g = 24;
-  rgb_reg_ptr.FIELDS.b = 128;
+  rgb_reg_ptr->FIELDS.r = 255;
+  rgb_reg_ptr->FIELDS.g = 24;
+  rgb_reg_ptr->FIELDS.b = 128;
   
   // or set the whole register
-  rgb_reg_ptr.REG = 0;
-  rgb_reg_ptr.REG = (255 << 16) | (24 << 8) | 128;
+  rgb_reg_ptr->REG = 0;
+  rgb_reg_ptr->REG = (255 << 16) | (24 << 8) | 128;
   
 }
 ```
