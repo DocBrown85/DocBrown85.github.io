@@ -3,12 +3,12 @@ layout: post
 title: A Simple TODO Application with AngularJS
 ---
 
-**Foreword**
+## Foreword
 
 This is a long ongoing description not yet completed. For the complete code of the TODO Application refer to the **The Full Code**
 section below.
 
-**Introduction**
+## Introduction
 
 AngularJS is a JavaScript Web Application framework developed at Google. It extends standard HTML with **directives** which add
 functionalities and expressiveness to plain HTML.
@@ -36,7 +36,7 @@ Name:<label ng-bind="name"></label>
 By viewing the previous snippet in a browser we can edit the value of the input text which is automatically displayed in the label
 without any additional code. The heavy lifting work is done by AngularJS, we only have to use two directives: *ng-model* and *ng-bind*.
 
-**The TODO Application**
+## The TODO Application
 
 The TODO Application is a simple application whose purpose is to allow the user to manage a list of things to do, such as:
 
@@ -68,7 +68,7 @@ The additional framework will be:
 
 * *Font Awesome Icons*: a CSS framework for fonts and icons, see <http://fontawesome.io/icons/>.
 
-**Application Architecture**
+## Application Architecture
 
 AngularJS enforces an MVC architecture, which basically says we have to split our application in a *Model*, a *View*, and a
 *Controller*.
@@ -82,7 +82,7 @@ The *Controller* is responsible for responding to the user input and perform int
 The controller receives the input, it validates the input and then performs the business operation that modifies the state
 of the data model.
 
-**Code Organization**
+## Code Organization
 
 The application code is organized in the following way:
 
@@ -103,7 +103,7 @@ The application code is organized in the following way:
         
 ```
 
-**Initial Setup Code and AngularJS Application Initialization**
+## Initial Setup Code and AngularJS Application Initialization
 
 Let's start some ready to use code which will setup the environment and will do some HTML scaffolding to create the basic structure
 of the page we will use to build the application:
@@ -201,7 +201,7 @@ as argument to our services and controllers we will create later on.
 
 To include `app.js` in our application we simply load it from a `<script>` tag from `index.html`:
 
-```
+```html
 <!-- index.html -->
 ...
 <body>
@@ -224,7 +224,7 @@ Then we have to bind the application `TodoApp` to the HTML element it will live 
 ...
 ```
 
-**The Model**
+## The Model
 
 As stated in the previous section about the *MVC* architecture, the *Model* responsible for managing the data of the application.
 Since we are designing an application whose purpose is to allow the user to manage a list of things to do, we can have a high level
@@ -389,15 +389,114 @@ The full code for the `localStorage` module is available at:
 
 <https://github.com/DocBrown85/angularjs-todo-application/blob/master/services/persist/local-storage.js>
 
-**The View**
+## The View
+
+The view is responsible for presenting application data to the user and allow to interact with it. Since we are developing a CRUD
+application, the view will be responsible also for creating, updating and deleting our todos.
+
+The layout of the application can be summarized as follows:
+
+```
+                +----------------------------------------+
+                | this part will allow to add a new todo |
+                +----------------------------------------+
+                | this part will display current todo    |
+                | list, and will allow single entries to |
+                | be marked as completed or to remove    |
+                | them                                   |
+                +----------------------------------------+
+                | This part will allow to filter current |
+                | todo list according to todos state and |
+                | to remove completed ones               |
+                +----------------------------------------+
+```
+
+The above layout will be rendered as HTML using AngularJS builtin template engine.
+
+The first step is to declare where our application template will be rendered in the view. We do this using the **ng-view** directive
+in the HTML element we want to be the cointainer of the view:
+
+```html
+<!-- index.html -->
+...
+<div class="row">
+    <div class="col-md-3"></div>
+    <div id="application-container" class="col-md-6" data-ng-view>
+        <!-- Application template will render here. -->
+    </div>
+    <div class="col-md-3"></div>
+</div>
+...
+```
+
+Then we have to set up a place for the template.
+
+We have two options: 
+
+* Store the template in a separate HTML file and load it with an HTTP call
+* Embed the template in index.html
+
+We choose the second options, so we set up a `<script>` tag to contain the application template:
+
+```html
+<!-- index.html -->
+...
+<script type="text/ng-template" id="todo-app-index.html">
+
+</script>
+...
+```
+
+The type of the <script> element must be specified as text/ng-template, and a cache name for the template must be assigned through
+the element's id.
+
+Next we have to setup the template itself. For the sake of brevity the following will focus on control elements directly involved in
+user's interaction with the todo list, skipping over the boilerplate code to setup the application layout with Bootstrap.
+
+### Sub-Template to insert a new Todo
+
+The first control will allow the user to insert a new todo and to mark all current todos as completed or pending:
+
+```
+<!-- index.html -->
+...
+<script type="text/ng-template" id="todo-app-index.html">
+    ...
+    <form id="todo-add-form" name="todo-add-form" data-ng-submit="createTodo()">
+        ...
+        <input type="checkbox" data-ng-model="allChecked" data-ng-click="markAll(allChecked)"/>
+        ...
+        <input type="text" name="todo-description-input" data-ng-model="newTodoDescription" required/>
+        ...
+    </form>
+    
+    ...
+</script>
+...
+```
+We are declaring a form with two controls:
+
+* A checkbox to mark all current todos as completed or pending
+* An input text to insert a new todo description
+
+Whithin the form, we are using several AngularJS directives:
+
+* The `ng-submit` directive specifies a function to run when the form is submitted, in the snippet above the `createTodo()` function
+  which will be part of the controller.
+* The `ng-model` directive binds the value of HTML controls (input, select, textarea) to application data.
+  In this case we are bounding the "checked" status of the checkbox to the `allChecked` variable.
+* The `ng-click` directive defines AngularJS code that will be executed when the element is being clicked.
+  In our case, when the element is clicked, the function `markAll()` will be executed, passing the value of the variable `allChecked` as
+  the argument.
+* Again, we are using the `ng-model` directive to bind the value of the text element to the application variable `newTodoDescription`.
+
+### Sub-Template to show current todo list and to update/delete single todo
+
+## The Controller
 
 Coming soon.
 
-**The Controller**
-
-Coming soon.
-
-**The Full Code**
+## The Full Code
 
 The full code for the TODO Application written with AngularJS framework is available here:
 
