@@ -3,6 +3,11 @@ layout: post
 title: A Simple TODO Application with AngularJS
 ---
 
+**Foreword**
+
+This is a long ongoing description not yet completed. For the complete code of the TODO Application refer to the **The Code** section
+below.
+
 **Introduction**
 
 AngularJS is a JavaScript Web Application framework developed at Google. It extends standard HTML with **directives** which add
@@ -96,9 +101,10 @@ The application code is organized in the following way:
         
 ```
 
-**Step 1: The View**
+**Step 0: Initial Setup Code and AngularJS Application Initialization**
 
-Let's start with the *View*, the place responsible for viewing application's data, with the following code:
+Let's start some ready to use code which will setup the environment and will do some HTML scaffolding to create the basic structure
+of the page we will use to build the application:
 
 ```html
 <!-- index.html -->
@@ -157,6 +163,55 @@ Let's start with the *View*, the place responsible for viewing application's dat
 
 Apart from loading stylesheets and javascripts dependancies, the code does nothing but creating a simple three column layout with 
 Bootstrap.
+
+Starting from the above code, the first thing to do is to create an AngularJS application and bind it to the HTML element it will live
+into.
+
+To create a new application we use the following code:
+
+```javascript
+// app.js
+//
+// Define the AngularJS application main module
+// along with its dependencies: the ngRoute module.
+//
+angular.module('TodoApp', ['ngRoute'])
+//
+// When an AngularJS app is started, it has a certain “boot-order”.
+// First the "config" step.
+//
+.config(function($routeProvider) { // providers & constants
+    // do configuration
+})
+//
+// Then the "run" step.
+//
+.run(function() { // services & constants
+    // do initialization
+});
+```
+
+The call to `angular.module('TodoApp', ['ngRoute'])` creates a new AngularJS module named `TodoApp` to hold our application's
+facilities.
+
+We are also stating the built-in module `ngRoute` will be a dependancy of our application, so it will be injected by AngularJS core
+as argument to our services and controllers we will create later on.
+
+Then we have to bind the application `TodoApp` to the HTML element it will live in. We do this with AngularJS directive
+`ng-app`. In our case we want to bind the application to the `<body>` tag of the HTML page:
+
+```html
+<!-- index.html -->
+...
+<body data-ng-app="TodoApp">
+    ....
+</body>
+...
+```
+
+**Step 1: The View**
+
+Coming soon.
 
 **Step 2: The Controller**
 
