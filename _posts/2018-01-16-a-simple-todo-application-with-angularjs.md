@@ -273,7 +273,7 @@ real world remote API backed up by a remote server.
 The starting point for our service is the following code, which declares a factory named `localStorage` whithin the main application
 module `TodoApp`:
 
-```
+```javascript
 // services/persist/local-storage.js
 angular.module('TodoApp')
 //
@@ -343,7 +343,7 @@ angular.module('TodoApp')
 For example, the following code implements the `create` function, which simply store the given todo in the todo array.
 Note the promise based interface:
 
-```
+```javascript
 // services/persist/local-storage.js
 ...
 //
@@ -382,7 +382,7 @@ create: function (todo) {
 ...
 ```
 
-Using the same approach we can write `read`, `update`, `delete` functions, along with all other functions we may need that directly
+Using the same approach we can write `read`, `update` and `delete` functions, along with all other functions we may need that directly
 manipulate application data.
 
 The full code for the `localStorage` module is available at:
