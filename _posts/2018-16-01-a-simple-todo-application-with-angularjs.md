@@ -77,7 +77,7 @@ of the data model.
 
 **Code Organization**
 
-We will organize the code in the following way:
+The application code is organized in the following way:
 
 ```
     application-root-folder
@@ -101,6 +101,7 @@ We will organize the code in the following way:
 Let's start with the *View*, the place responsible for viewing application's data, with the following code:
 
 ```
+<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -149,6 +150,11 @@ Let's start with the *View*, the place responsible for viewing application's dat
 </body>
 </html>
 ```
+
+Apart from loading stylesheets and javascripts dependancies, the code does nothing but creating a simple three column layout with 
+Bootstrap.
+
+
 
 **Step 2: The Controller**
 
