@@ -123,7 +123,7 @@ Let's start with the *View*, the place responsible for viewing application's dat
     <!-- Application Stylesheet -->
     <!-- TODO -->
 </head>
-<body data-ng-app="TodoApp">
+<body>
     <!--
         Use Bootstrap styles to build a three column layout.
         The application will render in the middle column.
