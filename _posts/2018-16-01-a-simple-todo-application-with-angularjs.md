@@ -158,8 +158,6 @@ Let's start with the *View*, the place responsible for viewing application's dat
 Apart from loading stylesheets and javascripts dependancies, the code does nothing but creating a simple three column layout with 
 Bootstrap.
 
-
-
 **Step 2: The Controller**
 
 Coming soon.
@@ -168,6 +166,8 @@ Coming soon.
 
 Coming soon.
 
+**The Code**
 
+The full code for the TODO Application written with AngularJS framework is available here: <>
 
 
