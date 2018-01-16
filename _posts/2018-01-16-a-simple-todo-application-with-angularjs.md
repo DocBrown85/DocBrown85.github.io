@@ -65,11 +65,13 @@ The additional framework will be:
 
 * *Bootstrap.js*: a frontend HTML, CSS, and JavaScript framework for developing responsive, mobile-first sites and applications,
                   see <https://getbootstrap.com/docs/3.3/getting-started/>.
+
 * *Font Awesome Icons*: a CSS framework for fonts and icons, see <http://fontawesome.io/icons/>.
 
 **Application Architecture**
 
-AngularJS enforces an MVC architecture, which basically says we have to split our application in a *Model*, a *View*, and a *Controller*.
+AngularJS enforces an MVC architecture, which basically says we have to split our application in a *Model*, a *View*, and a
+*Controller*.
 
 The *Model* is responsible for managing the data of the application. It responds to the request from the view and it also
 responds to instructions from the controller to update itself.
@@ -338,8 +340,8 @@ angular.module('TodoApp')
 });
 ```
 
-The following code implements the `create` function, which simply store the given todo in the todo array. Note the promise based
-interface:
+For example, the following code implements the `create` function, which simply store the given todo in the todo array.
+Note the promise based interface:
 
 ```
 // services/persist/local-storage.js
@@ -380,8 +382,8 @@ create: function (todo) {
 ...
 ```
 
-Using the same approach we can write `read`, `update`, `delete` functions, along with some other utility function we need for
-the application that directly manipulates application data.
+Using the same approach we can write `read`, `update`, `delete` functions, along with other utility functions we may need that directly
+manipulates application data.
 
 The full code for the `localStorage` module is available at:
 
