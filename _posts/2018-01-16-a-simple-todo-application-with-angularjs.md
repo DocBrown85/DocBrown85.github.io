@@ -457,7 +457,7 @@ user's interaction with the todo list, skipping over the boilerplate code to set
 
 The first control will allow the user to insert a new todo and to mark all current todos as completed or pending:
 
-```
+```html
 <!-- index.html -->
 ...
 <script type="text/ng-template" id="todo-app-index.html">
@@ -492,9 +492,68 @@ Whithin the form, we are using several AngularJS directives:
 
 ### Sub-Template to show current todo list and to update/delete single todo
 
+The next task is to allow the template to display current todo list, and to allow the user to update and delete displayed items.
+We can do this with the HTML specified int the `todo-list div`:
+
+```html
+<!-- index.html -->
+...
+<script type="text/ng-template" id="todo-app-index.html">
+    ...
+    <form id="todo-add-form" name="todo-add-form" data-ng-submit="createTodo()">
+        ...
+    </form>
+    
+    <div id="todo-list">
+        ...
+        <div ng-repeat="todo in todos | orderBy:'text' | filter: statusFilter track by $index">
+            ...
+            <input type="checkbox" ng-model="todo.done" ng-change="toggleDone(todo)"/>
+            ...
+            <label ng-dblclick="editTodo(todo)" ng-class="{'done':todo.done}">
+                {{todo.text}}
+            </label>
+            ...
+            <i class="icon-delete fa fa-close" ng-dblclick="deleteTodo(todo)"></i>
+        </div>
+        ...
+    </div>
+    
+    ...
+</script>
+...
+```
+
+Basically we are iterating over current todo list and for each item we are generating a `div` element which contains a checkbox,
+a label, and an inline element di display an icon.
+
+Here the details:
+
+The `ng-repeat` directive repeats a set of HTML, a given number of times.
+The set of HTML will be repeated once per item in a collection, which must be an array or an object. Each instance of the repetition
+is given its own scope, which consist of the current item.
+
+In this case we are repeating for each item in `todos` variable, which is an array holding all todos we are creating.
+
+We are also using filters:
+
+- `orderBy`, which allows to sort an array by an expression. In our case we are ordering by the 'text' property of the todo items.
+
+- `filter`, which allows to filter a collection by a predicate. In our case we are filtering by an object (`statusFilter`) which
+  will specify the property and its value we are filtering by.
+  
+The full code for the `index.html` is available at:
+
+<https://github.com/DocBrown85/angularjs-todo-application/blob/master/index.html>
+
+
 ## The Controller
 
 Coming soon.
+
+The full code for the `todoController` is available at:
+
+<https://github.com/DocBrown85/angularjs-todo-application/blob/master/controllers/todo-controller.js>
 
 ## The Full Code
 
