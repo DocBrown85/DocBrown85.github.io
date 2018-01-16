@@ -10,7 +10,7 @@ functionalities and expressiveness to plain HTML.
 
 Another important feature of AngularJS is *two-way binding*, a useful concept which is best demonstrated with the following example:
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -100,7 +100,7 @@ The application code is organized in the following way:
 
 Let's start with the *View*, the place responsible for viewing application's data, with the following code:
 
-```
+```html
 <!-- index.html -->
 <!doctype html>
 <html lang="en">
