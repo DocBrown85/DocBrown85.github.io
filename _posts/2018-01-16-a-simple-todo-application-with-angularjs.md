@@ -5,8 +5,8 @@ title: A Simple TODO Application with AngularJS
 
 **Foreword**
 
-This is a long ongoing description not yet completed. For the complete code of the TODO Application refer to the **The Code** section
-below.
+This is a long ongoing description not yet completed. For the complete code of the TODO Application refer to the **The Full Code**
+section below.
 
 **Introduction**
 
@@ -101,7 +101,7 @@ The application code is organized in the following way:
         
 ```
 
-**Step 0: Initial Setup Code and AngularJS Application Initialization**
+**Initial Setup Code and AngularJS Application Initialization**
 
 Let's start some ready to use code which will setup the environment and will do some HTML scaffolding to create the basic structure
 of the page we will use to build the application:
@@ -197,6 +197,19 @@ facilities.
 We are also stating the built-in module `ngRoute` will be a dependancy of our application, so it will be injected by AngularJS core
 as argument to our services and controllers we will create later on.
 
+To include `app.js` in our application we simply load it from a `<script>` tag from `index.html`:
+
+```
+<!-- index.html -->
+...
+<body>
+...
+    <!-- Todo Application Code -->
+    <script src="app.js"></script>
+...
+</body>
+```
+
 Then we have to bind the application `TodoApp` to the HTML element it will live in. We do this with AngularJS directive
 `ng-app`. In our case we want to bind the application to the `<body>` tag of the HTML page:
 
@@ -209,21 +222,180 @@ Then we have to bind the application `TodoApp` to the HTML element it will live 
 ...
 ```
 
-**Step 1: The View**
+**The Model**
+
+As stated in the previous section about the *MVC* architecture, the *Model* responsible for managing the data of the application.
+Since we are designing an application whose purpose is to allow the user to manage a list of things to do, we can have a high level
+representation of our data as a list of items.
+
+This list of items must allow CRUD operations on its data, so we need to provide the model with the related functionalities to 
+manipulate data.
+
+Moreover we would like to wrap our data and related functionalities into a module we can plug into our application as the single point
+of responsibility about managing our todo list. We want our model to be a module, or a service in AngularJS jargon, of the application.
+
+AngularJS has several ways to create modules, we will use the *factory* way.
+
+To create a factory we use the following code:
+
+```javascript
+angular.module('TodoApp')
+// Attach the new factory to the TodoApp, so we can reference it as we need it
+.factory('factoryName', function() {
+    // Factory code
+    
+    var api = {
+    
+        // Here we will declare the module APIs.
+    
+    };
+    
+    return api;
+});
+```
+
+We want our factory to have the following functionalities:
+
+* model the data (our todo list)
+* allow CRUD operations on data
+* allow to persist data between "sessions"
+
+The above requirements form the basis of most *Model*s which also take care of data persistance, be it a remote API or a storage engine
+of any other type.
+
+Since writing our model as an interface to a remote API would require to set up the API itself, we will write the model to persist
+data using browser's local storage.
+In addition, the APIs will have a *promise based* interface: this way, from a usage perspective, it won't be much different from a
+real world remote API backed up by a remote server.
+
+The starting point for our service is the following code, which declares a factory named `localStorage` whithin the main application
+module `TodoApp`:
+
+```
+// services/persist/local-storage.js
+angular.module('TodoApp')
+//
+// Create a factory to hold the local storage persistance API.
+// This API will store/retrieve todo list in/from browser local
+// storage.
+//
+// The API is promise-based to be fully compatible with a real world
+// backended API, so we need the $q module, which is a promise library
+// packed into angularjs.
+//
+// $filter is an AngularJS builtin module to manipulate arrays.
+//
+.factory('localStorage', function($q, $filter) {
+    
+    //
+    // The object cointaining the exposed API for the local storage
+    // persistance engine.
+    //
+    var store = {
+
+        // We are modelling the todo list as an array of JSON objects.
+        todos: [],
+        
+        //
+        // APIs to allow CRUD operations.
+        //
+        
+        create: function (todo) {
+        
+        },
+
+        read: function () {
+
+        },
+
+        update: function (todo) {
+
+        },
+
+        delete: function (todo) {
+        
+        },
+
+        //
+        // Low Level functions to get/store the todo list from the
+        // local storage.
+        //
+        // They shouldn't be used outside the module, hence the trailing '_' to
+        // mark them as 'private'.
+        //
+        _getFromLocalStorage: function() {
+            
+        },
+
+        _saveToLocalStorage: function (todos) {
+            
+        }
+
+    };
+
+    return store;
+
+});
+```
+
+The following code implements the `create` function, which simply store the given todo in the todo array. Note the promise based
+interface:
+
+```
+// services/persist/local-storage.js
+...
+//
+// APIs to allow CRUD operations.
+//
+
+create: function (todo) {
+
+    // Create a new promise, which will be returned
+    // to the user as the result of this function
+    // and will be resolved once the creation is 
+    // completed
+    var deferred = $q.defer();
+
+    // Extend the todo we are going to create with
+    // a unique id, to allow search and update
+    // operations
+    todo = angular.extend(todo, {
+        id: Date.now()
+    });
+
+    // Store the todo in our todo list
+    store.todos.push(todo);
+
+    // Save the todo list in browser's local storage
+    store._saveToLocalStorage(store.todos);
+
+    // Resolve the promise before returning it
+    deferred.resolve(store.todos);
+
+    // Return a promise to emulate a real world API
+    return deferred.promise;
+
+},
+
+...
+```
+
+Using the same approach we can write `read`, `update`, `delete` functions, along with some other utility function we need for
+the application that directly manipulates application data.
+
+The full code for the `localStorage` module is available at:
+
+<https://github.com/DocBrown85/angularjs-todo-application/blob/master/services/persist/local-storage.js>
+
+**The View**
 
 Coming soon.
 
-**Step 2: The Controller**
+**The Controller**
 
 Coming soon.
 
-**Step 3: The Model**
-
-Coming soon.
-
-**The Code**
+**The Full Code**
 
 The full code for the TODO Application written with AngularJS framework is available here:
 <https://github.com/DocBrown85/angularjs-todo-application.git>
-
-
