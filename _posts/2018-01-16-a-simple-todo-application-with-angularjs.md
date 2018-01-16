@@ -382,8 +382,8 @@ create: function (todo) {
 ...
 ```
 
-Using the same approach we can write `read`, `update`, `delete` functions, along with other utility functions we may need that directly
-manipulates application data.
+Using the same approach we can write `read`, `update`, `delete` functions, along with all other functions we may need that directly
+manipulate application data.
 
 The full code for the `localStorage` module is available at:
 
@@ -400,4 +400,5 @@ Coming soon.
 **The Full Code**
 
 The full code for the TODO Application written with AngularJS framework is available here:
+
 <https://github.com/DocBrown85/angularjs-todo-application.git>
