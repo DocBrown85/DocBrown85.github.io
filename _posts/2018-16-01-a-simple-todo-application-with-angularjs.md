@@ -168,6 +168,7 @@ Coming soon.
 
 **The Code**
 
-The full code for the TODO Application written with AngularJS framework is available here: <>
+The full code for the TODO Application written with AngularJS framework is available here:
+<https://github.com/DocBrown85/angularjs-todo-application.git>
 
 
