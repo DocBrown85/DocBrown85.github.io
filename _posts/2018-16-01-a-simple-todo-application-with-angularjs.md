@@ -416,7 +416,7 @@ Let's start with the *View*, the place responsible for viewing application's dat
 
 Coming soon.
 
-**Step 3: The View**
+**Step 3: The Model**
 
 Coming soon.
 
