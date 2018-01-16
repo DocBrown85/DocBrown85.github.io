@@ -131,7 +131,11 @@ Let's start with the *View*, the place responsible for viewing application's dat
     -->
     <div class="row">
         <div class="col-md-3"></div>
-        <div class="col-md-6" id="application-container"></div>
+        <div class="col-md-6" id="application-container">
+            <!--
+                The Application will render here.
+            -->
+        </div>
         <div class="col-md-3"></div>
     </div>
     
