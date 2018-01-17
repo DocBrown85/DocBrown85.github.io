@@ -392,7 +392,7 @@ The full code for the `localStorage` module is available at:
 ## The View
 
 The view is responsible for presenting application data to the user and allow to interact with it. Since we are developing a CRUD
-application, the view will be responsible also for creating, updating and deleting our todos.
+application, the view will be responsible for creating, updating and deleting our todos.
 
 The layout of the application can be summarized as follows:
 
@@ -434,9 +434,9 @@ Then we have to set up a place for the template.
 We have two options: 
 
 * Store the template in a separate HTML file and load it with an HTTP call
-* Embed the template in index.html
+* Embed the template in `index.html`
 
-We choose the second options, so we set up a `<script>` tag to contain the application template:
+We choose the second option, so we set up a `<script>` tag to contain the application template:
 
 ```html
 <!-- index.html -->
@@ -447,8 +447,8 @@ We choose the second options, so we set up a `<script>` tag to contain the appli
 ...
 ```
 
-The type of the <script> element must be specified as text/ng-template, and a cache name for the template must be assigned through
-the element's id.
+The type of the `<script>` element must be specified as `text/ng-template`, and a cache name for the template must be assigned through
+the element's `id`.
 
 Next we have to setup the template itself. For the sake of brevity the following will focus on control elements directly involved in
 user's interaction with the todo list, skipping over the boilerplate code to setup the application layout with Bootstrap.
@@ -492,7 +492,7 @@ Whithin the form, we are using several AngularJS directives:
 
 ### Sub-Template to show current todo list and to update/delete single todo
 
-The next task is to allow the template to display current todo list, and to allow the user to update and delete displayed items.
+The next task is to allow the template to display current todo list and to allow the user to update and delete displayed items.
 We can do this with the HTML specified int the `todo-list div`:
 
 ```html
@@ -536,7 +536,7 @@ The `ng-repeat` directive repeats a set of HTML, a given number of times.
 The set of HTML will be repeated once per item in a collection, which must be an array or an object. Each instance of the repetition
 is given its own scope, which consist of the current item.
 
-In this case we are repeating for each item in `todos` variable, which is an array holding all todos we are creating.
+In this case we are repeating for each item in `todos` variable, which is an array holding all todos we will create.
 
 We are also using filters:
 
@@ -545,7 +545,7 @@ We are also using filters:
 - `filter`, which allows to filter a collection by a predicate. In our case we are filtering by an object (`statusFilter`) which
   will specify the property and its value we are filtering by.
   
-For the checkbox we are using the `ng-model` directive to bind the value of the checkbox to a variable whithin the application scope.
+For the checkbox we are using the `ng-model` directive to bind the value of the checkbox to a variable within the application scope.
 Since we are using the `ng-repeat` directive, each instance of the repetition is given its own scope (which consist of the current
 item), so we are bounding the value of the checkbox to the property "done" of the current todo item.
 We are also binding the execution of the function `toggleDone()` (which receives the current item as the first argument) on `change`
@@ -562,7 +562,7 @@ For the `form` element we are binding the execution of the `saveTodo()` function
 We are also dynamically assigning the class `hidden` to the form depending on the value of the expression `todo != editedTodo`,
 where `todo` and `editedTodo` are variables in our application's scope.
 
-Last, for the form's inner `input` element, we are binding the value of the textbox to a variable whithin the application scope.
+Last, for the form's inner `input` element, we are binding the value of the textbox to a variable within the application scope.
 Again, since we are using the `ng-repeat` directive, each instance of the repetition is given its own scope (which consist of the
 current item), so we are bounding the value of the textbox to the property `text` of the current todo item.
 With the `ng-blur` directive we are binding the execution of the `saveTodo()` function (which receives the current todo and the string
@@ -618,7 +618,7 @@ The controller receives following injected arguments:
 * `$filter` is an utility object to filter collections.
 * `store` is the API to the storing engine we are using to persist todos.
 
-Whithin the body of `todoController` we have to write all functionalities that tie together the view with the model.
+Within the body of `todoController` we have to write all functionalities that tie together the view with the model.
 For example, when designing the view, we provided the function `createTodo()` to add a new todo to the list. This 
 function (and nearly all functions and variables we used in the view) need an implementation we can put in the controller:
 
