@@ -527,7 +527,6 @@ We can do this with the HTML specified int the `todo-list div`:
 </script>
 ...
 ```
-
 Basically we are iterating over current todo list and for each item we are generating a `div` element which contains a checkbox,
 a label, an inline element to display an icon, and a form with an input text to change todo description.
 
@@ -577,7 +576,79 @@ The full code for the `index.html` is available at:
 
 ## The Controller
 
-Coming soon.
+The Controller is the glue between our application View and the Model. We can specify this relation configuring the `ngRoute` module
+in the `config` phase of our application:
+
+```
+// app.js
+...
+.config(function($routeProvider) { // providers & constants
+    // do configuration
+    
+    var routeConfig = {
+        templateUrl: 'todo-app-index.html',
+        controller: 'todoController'
+    };
+
+    $routeProvider
+        .when('/', routeConfig)
+        .otherwise({
+            redirectTo: '/'
+        });
+})
+...
+```
+The `templateUrl` key specifies the template to use to render a particular page. In this case we are stating to use the template
+we previously provided in the `<script>` tag.
+The `controller` key specifies the controller to use to render a particular page. In this case we are stating to use the 
+`todoController` we are going to write shortly.
+
+The following code adds the `todoController` to the application:
+
+```
+angular.module('TodoApp')
+.controller('todoController', function($scope, $routeParams, $filter, store) {
+    // TODO
+});
+```
+The controller receives following injected arguments:
+
+* `$scope` is the application object (the owner of variables and functions used throughout the application).
+* `$routeParams` holds the params we previously configured for this route.
+* `$filter` is an utility object to filter collections.
+* `store` is the API to the storing engine we are using to persist todos.
+
+Whithin the body of `todoController` we have to write all functionalities that tie together the view with the model.
+For example, when designing the view, we provided the function `createTodo()` to add a new todo to the list. This 
+function (and nearly all functions and variables we used in the view) need an implementation we can put in the controller:
+
+```
+angular.module('TodoApp')
+.controller('todoController', function($scope, $routeParams, $filter, store) {
+    
+    $scope.newTodoDescription = "";
+    
+    $scope.createTodo = function() {
+
+        var newTodo = {
+            text: $scope.newTodoDescription,
+            done: false
+        };
+
+        store
+        .create(newTodo)
+        .then(function() {
+            $scope.newTodoDescription = "";
+        });
+
+    };
+    
+});
+```
+Note we are attaching all needed functions and variables to the `$scope` object: this way they will be available from the view
+whenever `todoController` is used.
+
+Using the same approach we can write all other functions and variables we needed while writing the view.
 
 The full code for the `todoController` is available at:
 
