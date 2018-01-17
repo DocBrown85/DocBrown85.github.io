@@ -5,8 +5,7 @@ title: A Simple TODO Application with AngularJS
 
 ## Foreword
 
-This is a long ongoing description not yet completed. For the complete code of the TODO Application refer to the **The Full Code**
-section below.
+For the complete code of the TODO Application refer to the **The Full Code** section below.
 
 ## Introduction
 
