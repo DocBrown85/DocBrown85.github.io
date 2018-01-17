@@ -503,7 +503,6 @@ We can do this with the HTML specified int the `todo-list div`:
     <form id="todo-add-form" name="todo-add-form" data-ng-submit="createTodo()">
         ...
     </form>
-    
     <div id="todo-list">
         ...
         <div ng-repeat="todo in todos | orderBy:'text' | filter: statusFilter track by $index">
@@ -515,17 +514,22 @@ We can do this with the HTML specified int the `todo-list div`:
             </label>
             ...
             <i class="icon-delete fa fa-close" ng-dblclick="deleteTodo(todo)"></i>
+            ...
+            <form ng-submit="saveTodo(todo, 'submit')" ng-class="{hidden: todo != editedTodo}">
+                ...
+                <input type="text" ng-model="todo.text" ng-blur="saveTodo(todo, 'blur')" ng-trim="false">
+                ...
+            </form>
         </div>
         ...
     </div>
-    
     ...
 </script>
 ...
 ```
 
 Basically we are iterating over current todo list and for each item we are generating a `div` element which contains a checkbox,
-a label, and an inline element di display an icon.
+a label, an inline element to display an icon, and a form with an input text to change todo description.
 
 Here the details:
 
@@ -542,10 +546,34 @@ We are also using filters:
 - `filter`, which allows to filter a collection by a predicate. In our case we are filtering by an object (`statusFilter`) which
   will specify the property and its value we are filtering by.
   
+For the checkbox we are using the `ng-model` directive to bind the value of the checkbox to a variable whithin the application scope.
+Since we are using the `ng-repeat` directive, each instance of the repetition is given its own scope (which consist of the current
+item), so we are bounding the value of the checkbox to the property "done" of the current todo item.
+We are also binding the execution of the function `toggleDone()` (which receives the current item as the first argument) on `change`
+events occurring to the checkbox.
+
+Regarding the label we are binding the execution of the function `editTodo()` (which receives the current item as the first argument) on
+`double click` events occurring to the label using the `ng-dblclick` directive.
+We are also dynamically assigning the class "done" to the element on the basis of the value of the `done` property of the binded 
+`todo` item.
+The value of the label is displayed by evaluating the expression `{{todo.text}}` for the current todo item.
+
+For the `form` element we are binding the execution of the `saveTodo()` function to `submit` events of the form with the 
+`ng-submit` directive.
+We are also dynamically assigning the class `hidden` to the form depending on the value of the expression `todo != editedTodo`,
+where `todo` and `editedTodo` are variables in our application's scope.
+
+Last, for the form's inner `input` element, we are binding the value of the textbox to a variable whithin the application scope.
+Again, since we are using the `ng-repeat` directive, each instance of the repetition is given its own scope (which consist of the
+current item), so we are bounding the value of the textbox to the property `text` of the current todo item.
+With the `ng-blur` directive we are binding the execution of the `saveTodo()` function (which receives the current todo and the string
+`'blur'` as arguments) when the input field loses focus (`onblur`).
+With `ng-trim` directive we are disabling the automatic trimming of the input text, while with `set-focus` we are setting a custom
+directive to set the focus on the element, which will be executed when the expression '`todo == editedTodo`' evaluates to `true`.
+
 The full code for the `index.html` is available at:
 
 <https://github.com/DocBrown85/angularjs-todo-application/blob/master/index.html>
-
 
 ## The Controller
 
