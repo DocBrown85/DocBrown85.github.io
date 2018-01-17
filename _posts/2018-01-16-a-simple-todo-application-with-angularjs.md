@@ -55,8 +55,8 @@ These operations go under the name of CRUD operations, an acronym for:
 Basically nearly all applications need to *create* some data, *read* it from some kind of storage, *update* it as the user need
 and *delete* it when no longer useful.
 
-This kind of application is useful to evaluate and learn the basic capabilities of a framework (be it a frontend or a backend framework),
-and can serve as a benchmark to evaluate different frameworks when choosing a particular one.
+This kind of application is useful to evaluate and learn the basic capabilities of a framework (be it a frontend or a backend
+framework), and can serve as a benchmark to evaluate different frameworks when choosing a particular one.
 
 In the following will be described the steps to build a really simple Todo Application with a focus on the AngularJS framework, although
 we will use some other frameworks to build a better looking application.
@@ -76,7 +76,7 @@ AngularJS enforces an MVC architecture, which basically says we have to split ou
 The *Model* is responsible for managing the data of the application. It responds to the request from the view and it also
 responds to instructions from the controller to update itself.
 
-The *View* means presentation of data in a particular format, triggered by a controller's decision to present the data.
+The *View* is responsible for data presentation in a particular format, triggered by a controller's decision to present the data.
 
 The *Controller* is responsible for responding to the user input and perform interactions on the data model objects.
 The controller receives the input, it validates the input and then performs the business operation that modifies the state
@@ -105,7 +105,7 @@ The application code is organized in the following way:
 
 ## Initial Setup Code and AngularJS Application Initialization
 
-Let's start some ready to use code which will setup the environment and will do some HTML scaffolding to create the basic structure
+Let's start with some ready to use code which will setup the environment and will do some HTML scaffolding to create the basic structure
 of the page we will use to build the application:
 
 ```html
@@ -163,7 +163,7 @@ of the page we will use to build the application:
 </html>
 ```
 
-Apart from loading stylesheets and javascripts dependancies, the code does nothing but creating a simple three column layout with 
+Apart from loading stylesheets and javascripts dependencies, the code does nothing but creating a simple three column layout with 
 Bootstrap.
 
 Starting from the above code, the first thing to do is to create an AngularJS application and bind it to the HTML element it will live
@@ -197,7 +197,7 @@ The call to `angular.module('TodoApp', ['ngRoute'])` creates a new AngularJS mod
 facilities.
 
 We are also stating the built-in module `ngRoute` will be a dependancy of our application, so it will be injected by AngularJS core
-as argument to our services and controllers we will create later on.
+as argument to our controllers we will create later on.
 
 To include `app.js` in our application we simply load it from a `<script>` tag from `index.html`:
 
@@ -218,7 +218,7 @@ Then we have to bind the application `TodoApp` to the HTML element it will live 
 ```html
 <!-- index.html -->
 ...
-<body data-ng-app="TodoApp">
+<body ng-app="TodoApp">
     ....
 </body>
 ...
@@ -270,7 +270,7 @@ data using browser's local storage.
 In addition, the APIs will have a *promise based* interface: this way, from a usage perspective, it won't be much different from a
 real world remote API backed up by a remote server.
 
-The starting point for our service is the following code, which declares a factory named `localStorage` whithin the main application
+The starting point for our service is the following code, which declares a factory named `localStorage` within the main application
 module `TodoApp`:
 
 ```javascript
@@ -579,7 +579,7 @@ The full code for the `index.html` is available at:
 The Controller is the glue between our application View and the Model. We can specify this relation configuring the `ngRoute` module
 in the `config` phase of our application:
 
-```
+```javascript
 // app.js
 ...
 .config(function($routeProvider) { // providers & constants
@@ -605,7 +605,7 @@ The `controller` key specifies the controller to use to render a particular page
 
 The following code adds the `todoController` to the application:
 
-```
+```javascript
 angular.module('TodoApp')
 .controller('todoController', function($scope, $routeParams, $filter, store) {
     // TODO
@@ -622,7 +622,8 @@ Whithin the body of `todoController` we have to write all functionalities that t
 For example, when designing the view, we provided the function `createTodo()` to add a new todo to the list. This 
 function (and nearly all functions and variables we used in the view) need an implementation we can put in the controller:
 
-```
+```javascript
+// controllers/todo-controller.js
 angular.module('TodoApp')
 .controller('todoController', function($scope, $routeParams, $filter, store) {
     
