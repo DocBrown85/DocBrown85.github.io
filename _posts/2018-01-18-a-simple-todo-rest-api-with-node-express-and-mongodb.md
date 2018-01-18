@@ -91,7 +91,7 @@ npm init
 from application's root directory.
 
 After answering some question about the application, a file named `package.json` will be created
-in the root directory. This file is used, among other things, to keep trace of our application's name, starting point, and dependancies.
+in the root directory. This file is used, among other things, to keep trace of our application's name, starting point, and dependencies.
 
 We then need to install Express and Mongoose packages:
 
