@@ -110,7 +110,7 @@ npm install --save mongoose
 `server.js` is the entry point of the application, so its purpose is to include the packages we need, do the initial setup and open
 a port to listen for incoming requests:
 
-```
+```javascript
 // server.js
 
 // call the packages we need
@@ -133,27 +133,167 @@ app.listen(port, function() {
 });
 
 ```
-
 By executing `server.js` with Node:
-
 ```
 node server.js
 ```
 the following output is printed on the screen:
-
 ```
 NodeJS TODO REST API server started on port: 3000
 ```
-
 so the server is up and running.
 
 ## The Routes
 
-Coming Soon.
+Routes are a way to map URLs to functions in our applications. Recalling the above table, we want a specific pair of (URL, HTTP Method)
+to map to a CRUD operation on our todo list.
 
+We can specify this mapping using the `router` module of an Express application:
+
+```javascript
+//api/routes/todo-routes.js
+
+'use strict'
+
+var express     = require('express');
+
+// ROUTES FOR OUR API
+// =============================================================================
+
+module.exports = function(app) {
+
+  // get an instance of the express Router
+  var router = express.Router();
+
+  //
+  // configure routes
+  //
+
+  // test route, to check if server is up and running
+  router.route('/')
+  .get(function(req, res) {
+    res.json({ message: 'NodeJS TODO REST API' });
+  });
+
+  //
+  // TODO REST ROUTES
+  //
+
+  // all URLs ending with '/todos' will be routed here
+  router.route('/todos')
+  .get(function(req, res) {       // GET requests will execute this function
+    res.json({ message: 'GET Request on /todos!' });
+  })
+  .post(function(req, res) {      // POST requests will execute this function
+    res.json({ message: 'POST Request on /todos!' });
+  })
+  .delete(function(req, res) {    // DELETE requests will execute this function
+    res.json({ message: 'DELETE Request on /todos!' });
+  });
+
+  // all URLs ending with '/todos/:todoId' will be routed here
+  router.route('/todos/:todoId')
+  .get(function(req, res) {       // GET requests will execute this function
+    res.json({ message: 'GET Request on /todos/' + req.params.todoId + '!' });
+  })
+  .post(function(req, res) {      // POST requests will execute this function
+    res.json({ message: 'POST Request on /todos/' + req.params.todoId + '!' });
+  })
+  .delete(function(req, res) {    // DELETE requests will execute this function
+    res.json({ message: 'DELETE Request on /todos/' + req.params.todoId + '!' });
+  });
+
+  // register routes: all of our routes will be prefixed with /api
+  app.use('/api', router);
+
+}
+```
+we then register our routes by requiring the `todo-routes.js` module from `server.js`:
+
+```javascript
+// server.js
+...
+// import the route module
+var routes      = require('./api/routes/todo-routes.js');
+...
+// define application port
+var port        = process.env.PORT || 3000;
+...
+// register todo routes
+routes(app);
+...
+// start listening for incoming connections
+app.listen(port, function() {
+  console.log('NodeJS TODO REST API server started on port: ' + port);
+});
+```
+If we run the code and start sending requests to the server, for example with POSTMan, we will get the corresponding message as the
+result.
+For example, by sending the following request:
+```
+GET 127.0.0.1/api/todos/1
+```
+we will receive:
+```
+{ message: 'GET Request on /todos/1' }
+```
 ## The Model
 
-Coming Soon.
+The model for the Todo item is very simple: it has a text description and a flag to state if the todo is completed or not:
+
+```javascript
+// api/models/todo-model.js
+'use strict';
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var TodoSchema = new Schema({
+  text: {
+    type: String,
+    required: 'enter the name of the task'
+  },
+  done: {
+    type: Boolean,
+    default: false
+  }
+});
+
+module.exports = mongoose.model('Todo', TodoSchema);
+```
+The above code defines a new Mongoose Schema with the fields required to model our todo items. We will use an instance of this object
+to communicate with the MongoDB database to provide search and persistence capabilities for our todo list.
+
+After defining the model, we need to require it from `server.js`, along with setting up the communication with the MongoDB database:
+
+```javascript
+// server.js
+...
+// setup database connection
+mongoose.Promise = global.Promise;
+mongoose.connect(
+  'connection_string_to_mongo_db_database',
+  {
+    useMongoClient: true
+  }
+);
+...
+// import the Todo model
+var Todo        = require('./api/models/todo-model.js');
+// import the route module
+var routes      = require('./api/routes/todo-routes.js');
+...
+// define application port
+var port        = process.env.PORT || 3000;
+...
+// register todo routes
+routes(app);
+...
+// start listening for incoming connections
+app.listen(port, function() {
+  console.log('NodeJS TODO REST API server started on port: ' + port);
+});
+```
 
 ## The Controller
 
