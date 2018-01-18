@@ -32,8 +32,11 @@ Node, Express and MongoDB are software stacks used to build server-side applicat
 
 * **Node** is an engine to run JavaScript from the command line, the same way we can run Python or BASH. It also provides an
   environment to build asynchronous and event driven applications.
+  More informations can be found [here](https://nodejs.org/en/).
 * **Express** is a software stack built over Node to ease the development of networked applications.
+  More informations can be found [here](http://expressjs.com/).
 * **MongoDB** is a non-relational database engine with dynamic schemas based on the JSON format.
+  More informations can be found [here](https://www.mongodb.com/).
 
 When used together, Node, Express and MongoDB allow to build pure JavaScript applications using an asynchronous and event driven
 approach.
@@ -53,12 +56,11 @@ The APIs exposed by the service are summarized in the following table:
 | UPDATE a Todo Item        | PUT           | /api/todos/:todoId    |
 | DELETE a Todo Item        | DELETE        | /api/todos/:todoId    |
 
-## Prerequisite
+## Prerequisites
 
-The Node engine has to be properly installed and setup according to the used platform (Windows or Linux). Refer to the official
+* The Node engine has to be properly installed and setup according to the used platform (Windows or Linux). Refer to the official
 documentation for how to install and setup Node.
-
-The storage engine MongoDB can be either installed on the development environment or a cloud based solution can be used. I'm using
+* The storage engine MongoDB can be either installed on the development environment or a cloud based solution can be used. I'm using
 a cloud based solution hosted by [MongoLab](https://mlab.com/).
 
 ## Application Initial Setup
@@ -86,13 +88,16 @@ Supposing the existence of the previous structure, we initialize a new Node proj
 npm init
 ```
 
-from application's root directory. After answering some question about the application, a file named `package.json` will be created
+from application's root directory.
+
+After answering some question about the application, a file named `package.json` will be created
 in the root directory. This file is used, among other things, to keep trace of our application's name, starting point, and dependancies.
 
 We then need to install Express and Mongoose packages:
 
 * Express, as stated above, is the stack to build networked application with Node.
 * Mongoose is a high-level stack to communicate with MongoDB databases.
+  More informations can be found [here](http://mongoosejs.com/).
 
 We install Express with the following command (from the root directory):
 
@@ -422,11 +427,13 @@ Using a software like POSTMan we can send to our API a `POST 127.0.0.1/api/todos
 
 ```javascript
 {
-		"text": "Walk the Dog",
-		"done": false	
+  "text": "Walk the Dog",
+  "done": false	
 }
 ```
-to create a new todo item. We can handle the request from the controller:
+to create a new todo item.
+
+We can handle the request from the controller:
 
 ```javascript
 // api/controllers/todo-controller.js
@@ -496,30 +503,234 @@ Now, sending a `POST 127.0.0.1/api/todos` with the body cointaining the followin
 		"done": false	
 }
 ```
-to our API we will receive an response containing the fresh new todo item:
+to our API we will receive a response containing the fresh new todo item:
 
 ```javascript
 {
-		"text": "Walk the Dog",
-		"done": false,
-    __v: 0,
-    _id: "5a5f4fba87adcc530ee3c51c"
+	"text": "Walk the Dog",
+	"done": false,
+	__v: 0,
+	_id: "5a5f4fba87adcc530ee3c51c"
 }
 ```
 note the `_id` automatically added by MongoDB upon creation of the new record.
 
 ### Function to get a Todo
 
-Coming Soon.
+By sending a `GET 127.0.0.1/api/todos/5a5f4fba87adcc530ee3c51c` we should be able to retrieve all data belonging to the todo item with id
+`5a5f4fba87adcc530ee3c51c`.
+
+We can handle this request from the controller:
+
+```javascript
+// api/controllers/todo-controller.js
+'use strict';
+
+var mongoose = require('mongoose'),
+
+// build an instance of a Todo Schema
+Todo = mongoose.model('Todo');
+
+module.exports = {
+
+    // function to read current todo list
+    readAll: function(req, res) {
+      ...
+    },
+
+    // function to create a new Todo
+    create: function(req, res) {
+      ...
+    },
+
+    // function to get data about a Todo
+    read: function(req, res) {
+      
+      // use the findById() function from Todo Schema to retrieve
+      // a todo with the specified id
+      Todo.findById(req.params.todoId, function(err, todo) {
+
+        if (err) {
+
+          res.status(400).send(err);
+
+          return;
+
+        }
+
+        res.json(todo);
+
+      });
+      
+    },
+
+    // function to updata data about a Todo
+    update: function(req, res) {
+      // TODO
+    },
+
+    // function to delete a Todo
+    delete: function(req, res) {
+      // TODO
+    }
+
+}
+```
 
 ### Function to update a Todo
 
-Coming Soon.
+By sending a `PUT 127.0.0.1/api/todos/5a5f4fba87adcc530ee3c51c` request with the following body:
+
+```javascript
+{
+  _id: "5a5f4fba87adcc530ee3c51c",
+  "text": "Walk the Dog",
+  "done": true
+}
+```
+
+we should be able to update specified data belonging to the todo item with id `5a5f4fba87adcc530ee3c51c`.
+
+We can handle this request from the controller:
+
+```javascript
+// api/controllers/todo-controller.js
+'use strict';
+
+var mongoose = require('mongoose'),
+
+// build an instance of a Todo Schema
+Todo = mongoose.model('Todo');
+
+module.exports = {
+
+    // function to read current todo list
+    readAll: function(req, res) {
+      ...
+    },
+
+    // function to create a new Todo
+    create: function(req, res) {
+      ...
+    },
+
+    // function to get data about a Todo
+    read: function(req, res) {
+      ...
+    },
+
+    // function to updata data about a Todo
+    update: function(req, res) {
+      
+      // use the findById() function from Todo Schema to retrieve
+      // a todo with the specified id
+      Todo.findById(req.params.todoId, function(err, todo) {
+
+        if (err) {
+
+          res.status(400).send(err);
+
+          return;
+
+        }
+
+	// update todo informations according to what
+	// is specified in the body of the request
+        todo.text = req.body.text;
+        todo.done = req.body.done;
+
+	// save the updated todo item
+        todo.save(function(err) {
+
+          if (err) {
+
+            res.status(400).send(err);
+
+            return;
+
+          }
+
+          res.json({ message: 'Todo Updated!' });
+
+        });
+
+      });
+      
+    },
+
+    // function to delete a Todo
+    delete: function(req, res) {
+      // TODO
+    }
+
+}
+```
 
 ### Function to delete a Todo
 
-Coming Soon.
+By sending a `DELETE 127.0.0.1/api/todos/5a5f4fba87adcc530ee3c51c` we should be able to delete the todo item with id
+`5a5f4fba87adcc530ee3c51c`.
 
+We can handle this request from the controller:
+
+```javascript
+// api/controllers/todo-controller.js
+'use strict';
+
+var mongoose = require('mongoose'),
+
+// build an instance of a Todo Schema
+Todo = mongoose.model('Todo');
+
+module.exports = {
+
+    // function to read current todo list
+    readAll: function(req, res) {
+      ...
+    },
+
+    // function to create a new Todo
+    create: function(req, res) {
+      ...
+    },
+
+    // function to get data about a Todo
+    read: function(req, res) {
+      ...
+    },
+
+    // function to updata data about a Todo
+    update: function(req, res) {
+      ...
+    },
+
+    // function to delete a Todo
+    delete: function(req, res) {
+      
+      // use the remove() function from Todo Schema to delete
+      // todos that match the specified conditions
+      Todo.remove(
+	  {
+            _id: req.params.todoId
+	  },
+	  function(err) {
+
+	      if (err) {
+
+	        res.status(400).send(err);
+
+	        return;
+	      }
+
+	      res.json({ message: 'Todo Deleted!' });
+	  }
+
+	  );
+      
+     }
+
+}
+```
 ## The Full Code
 
 The full code for the Simple Todo REST API with Node, Express and MongoDB is available
