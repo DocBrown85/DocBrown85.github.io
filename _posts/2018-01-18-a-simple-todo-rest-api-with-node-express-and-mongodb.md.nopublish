@@ -297,7 +297,65 @@ app.listen(port, function() {
 
 ## The Controller
 
-Coming Soon.
+In our architecture the controller is responsible for executing the needed actions on the Todo model to provide all functionalities
+exposed from the API.
+
+For example, by sending the following request:
+```
+GET 127.0.0.1/api/todos
+```
+we are required to provide the current list of todos. We can do this defining a another Node module with the proper API:
+
+```javascript
+'use strict';
+
+var mongoose = require('mongoose'),
+
+Todo = mongoose.model('Todo');
+
+module.exports = {
+
+    // function to read current todo list
+    readAll: function(req, res) {
+
+      Todo.find(function(err, todos) {
+
+        if (err) {
+
+          res.status(400).send(err);
+
+          return;
+
+        }
+
+        res.json(todos);
+
+      });
+
+    },
+
+    deleteCompleted: function(req, res) {
+
+    },
+
+    create: function(req, res) {
+
+    },
+
+    read: function(req, res) {
+
+    },
+
+    update: function(req, res) {
+
+    },
+
+    delete: function(req, res) {
+
+    }
+
+}
+```
 
 ## The Full Code
 
