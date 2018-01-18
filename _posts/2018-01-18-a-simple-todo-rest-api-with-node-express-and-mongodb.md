@@ -68,18 +68,17 @@ a cloud based solution hosted by [MongoLab](https://mlab.com/).
 Application's files will be organized with the following layout:
 
 ```
-            nodejs-todo-rest-api
-                    |
-                    +--------------- api
-                    |                 |
-                    |                 +-------- controllers // directory to hold application controllers
-                    |                 |
-                    |                 +-------- models      // directory to hold application models
-                    |                 |
-                    |                 +-------- routes      // directory to hold application routes
-                    |
-                    +---------------- server.js             // application's entry point
-                    
+nodejs-todo-rest-api
+    |
+    +--------------- api
+    |                 |
+    |                 +-------- controllers // directory to hold application controllers
+    |                 |
+    |                 +-------- models      // directory to hold application models
+    |                 |
+    |                 +-------- routes      // directory to hold application routes
+    |
+    +---------------- server.js             // application's entry point
 ```
 
 Supposing the existence of the previous structure, we initialize a new Node project with the command
@@ -136,7 +135,6 @@ var port        = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log('NodeJS TODO REST API server started on port: ' + port);
 });
-
 ```
 By executing `server.js` with Node:
 ```
