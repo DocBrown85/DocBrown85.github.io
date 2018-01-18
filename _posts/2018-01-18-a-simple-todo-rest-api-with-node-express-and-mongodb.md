@@ -499,26 +499,26 @@ Now, sending a `POST 127.0.0.1/api/todos` with the body cointaining the followin
 
 ```javascript
 {
-		"text": "Walk the Dog",
-		"done": false	
+  "text": "Walk the Dog",
+  "done": false	
 }
 ```
 to our API we will receive a response containing the fresh new todo item:
 
 ```javascript
 {
-	"text": "Walk the Dog",
-	"done": false,
-	__v: 0,
-	_id: "5a5f4fba87adcc530ee3c51c"
+  "text": "Walk the Dog",
+  "done": false,
+  __v: 0,
+  _id: "5a5f4fba87adcc530ee3c51c"
 }
 ```
 note the `_id` automatically added by MongoDB upon creation of the new record.
 
 ### Function to get a Todo
 
-By sending a `GET 127.0.0.1/api/todos/5a5f4fba87adcc530ee3c51c` we should be able to retrieve all data belonging to the todo item with id
-`5a5f4fba87adcc530ee3c51c`.
+By sending a `GET 127.0.0.1/api/todos/5a5f4fba87adcc530ee3c51c` we should be able to retrieve all data belonging to the todo 
+item with id `5a5f4fba87adcc530ee3c51c`.
 
 We can handle this request from the controller:
 
