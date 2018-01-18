@@ -1,0 +1,48 @@
+---
+layout: post
+title: A Simple Todo REST API with Node, Express and MongoDB
+---
+
+## REST APIs and CRUD operations
+
+REST is an acronym for **REpresentational** **State** **Transfer**. It is a software architecture to provide interoperability between
+systems on the Internet. REST-compliant Web services allow to access and manipulate textual representations of Web resources using a 
+uniform and predefined set of stateless operations.
+
+Every resource within a RESTful service is identified with a URI, while requests to that URI are mapped to operations on that resource.
+The most common architecture provides CRUD operations on resources by using the HTTP protocol, mapping each operation to a proper HTTP
+method.
+
+For example, suppose a service to provide CRUD operations on a Todo list such that clients can *Create*, *Read*, *Update* and *Delete*
+items from that list.
+
+A RESTful interface to such service might be the following:
+
+| Operation                 | HTTP Verb     | URL                   |
+| --------------------------|---------------| ----------------------|
+| READ the whole Todo list  | GET           | /api/todos            |
+| CREATE a Todo Item        | POST          | /api/todos            |
+| READ a Todo Item          | GET           | /api/todos/:todoId    |
+| UPDATE a Todo Item        | PUT           | /api/todos/:todoId    |
+| DELETE a Todo Item        | DELETE        | /api/todos/:todoId    |
+
+## The Node, Express, MongoDB Stack
+
+Node, Express and MongoDB are software stacks used to build server-side applications with JavaScript:
+
+* **Node** is an engine to run JavaScript from the command line, the same way we can run Python or PHP. It also provides an
+  environment to build asynchronous and event driven applications.
+* **Express** is a software stack built over Node to ease the development of networked applications.
+* **MongoDB** is a non-relational database engine with dynamic schemas based on the JSON format.
+
+When used together, Node, Express and MongoDB allow to build 
+
+## Application Overview
+
+## The Server
+
+## The Model
+
+## The Controller
+
+## The Routes
