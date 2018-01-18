@@ -99,13 +99,56 @@ We install Express with the following command (from the root directory):
 ```
 npm install --save express
 ```
-while to install Mongoose we can execute the command:
+while to install Mongoose we can execute the command (from the root directory):
 
 ```
 npm install --save mongoose
 ```
 
 ## The Server
+
+`server.js` is the entry point of the application, so its purpose is to include the packages we need, do the initial setup and open
+a port to listen for incoming requests:
+
+```
+// server.js
+
+// call the packages we need
+var express     = require('express');       // call express
+var app         = express();                // define a new app with express
+var bodyParser  = require('body-parser');
+var mongoose    = require('mongoose');
+
+// configure app to use bodyParser()
+// this will let us get the data from a POST
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// define application port
+var port        = process.env.PORT || 3000;
+
+// start listening for incoming connections
+app.listen(port, function() {
+  console.log('NodeJS TODO REST API server started on port: ' + port);
+});
+
+```
+
+By executing `server.js` with Node:
+
+```
+node server.js
+```
+the following output is printed on the screen:
+
+```
+NodeJS TODO REST API server started on port: 3000
+```
+
+so the server is up and running.
+
+## The Routes
+
 Coming Soon.
 
 ## The Model
@@ -113,10 +156,6 @@ Coming Soon.
 Coming Soon.
 
 ## The Controller
-
-Coming Soon.
-
-## The Routes
 
 Coming Soon.
 
