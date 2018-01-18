@@ -86,20 +86,19 @@ of the data model.
 The application code is organized in the following way:
 
 ```
-    application-root-folder
-        |
-        +---- index.html    // application main view and user's entry point
-        |
-        +---- app.js        // application main AngularJS module
-        |
-        +---- css           // folder for application specific css styles
-        |
-        +---- controllers   // folder for AngularJS controllers needed for the application
-        |
-        +---- directives    // folder for AngularJS directives needed for the application
-        |
-        +---- services      // folder for AngularJS services needed for the application
-        
+application-root-folder
+    |
+    +---- index.html    // application main view and user's entry point
+    |
+    +---- app.js        // application main AngularJS module
+    |
+    +---- css           // folder for application specific css styles
+    |
+    +---- controllers   // folder for AngularJS controllers needed for the application
+    |
+    +---- directives    // folder for AngularJS directives needed for the application
+    |
+    +---- services      // folder for AngularJS services needed for the application
 ```
 
 ## Initial Setup Code and AngularJS Application Initialization
@@ -396,18 +395,18 @@ application, the view will be responsible for creating, updating and deleting ou
 The layout of the application can be summarized as follows:
 
 ```
-                +----------------------------------------+
-                | this part will allow to add a new todo |
-                +----------------------------------------+
-                | this part will display current todo    |
-                | list, and will allow single entries to |
-                | be marked as completed or to remove    |
-                | them                                   |
-                +----------------------------------------+
-                | This part will allow to filter current |
-                | todo list according to todos state and |
-                | to remove completed ones               |
-                +----------------------------------------+
++----------------------------------------+
+| this part will allow to add a new todo |
++----------------------------------------+
+| this part will display current todo    |
+| list, and will allow single entries to |
+| be marked as completed or to remove    |
+| them                                   |
++----------------------------------------+
+| This part will allow to filter current |
+| todo list according to todos state and |
+| to remove completed ones               |
++----------------------------------------+
 ```
 
 The above layout will be rendered as HTML using AngularJS builtin template engine.
