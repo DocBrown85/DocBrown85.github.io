@@ -304,13 +304,15 @@ For example, by sending the following request:
 ```
 GET 127.0.0.1/api/todos
 ```
-we are required to provide the current list of todos. We can do this defining a another Node module with the proper API:
+we are required to provide the current list of todos. We can do this defining another Node module with the proper API:
 
 ```javascript
+// api/controllers/todo-controller.js
 'use strict';
 
 var mongoose = require('mongoose'),
 
+// build an instance of a Todo Schema
 Todo = mongoose.model('Todo');
 
 module.exports = {
@@ -318,6 +320,8 @@ module.exports = {
     // function to read current todo list
     readAll: function(req, res) {
 
+      // Use the instance of Todo Schema to retrieve the
+      // current todo list from MongoDB database
       Todo.find(function(err, todos) {
 
         if (err) {
@@ -334,28 +338,187 @@ module.exports = {
 
     },
 
-    deleteCompleted: function(req, res) {
-
-    },
-
+    // function to create a new Todo
     create: function(req, res) {
-
+      // TODO
     },
 
+    // function to get data about a Todo
     read: function(req, res) {
-
+      // TODO
     },
 
+    // function to updata data about a Todo
     update: function(req, res) {
-
+      // TODO
     },
 
+    // function to delete a Todo
     delete: function(req, res) {
-
+      // TODO
     }
 
 }
 ```
+
+After defining the `readAll` function, we need to execute that function whenever a `GET` request is sent to the URL 
+`127.0.0.1/api/todos`.
+
+We do this by requiring the controller module from the router module and by registering the function to be called by the proper handler:
+
+```javascript
+// api/routes/todo-routes.js
+'use strict'
+
+var express     = require('express');
+
+// require the controller
+var todoList    = require('../controllers/todo-controller.js');
+
+// ROUTES FOR OUR API
+// =============================================================================
+
+module.exports = function(app) {
+
+  // get an instance of the express Router
+  var router = express.Router();
+
+  //
+  // configure routes
+  //
+
+  // test route, to check if server is up and running
+  router.route('/')
+  .get(function(req, res) {
+    res.json({ message: 'NodeJS TODO REST API' });
+  });
+
+  //
+  // TODO REST ROUTES
+  //
+
+  // all URLs ending with '/todos' will be routed here
+  router.route('/todos')
+  .get(todoList.readAll)              // GET requests will execute this function
+  .post(todoList.create)              // POST requests will execute this function
+
+  // all URLs ending with '/todos/:todoId' will be routed here
+  router.route('/todos/:todoId')
+  .get(todoList.read)                 // GET requests will execute this function
+  .put(todoList.update)               // PUT requests will execute this function
+  .delete(todoList.delete);           // DELETE requests will execute this function
+
+  // register routes: all of our routes will be prefixed with /api
+  app.use('/api', router);
+
+}
+```
+in the above, in addition to register the `readAll` handler for the route `GET 127.0.0.1/api/todos`, we registered handlers for all
+functions exported by the controller to the related route. 
+
+### Function to create a new Todo
+
+Using a software like POSTMan we can send to our API a `POST 127.0.0.1/api/todos` with the body cointaining the following data:
+
+```javascript
+{
+		"text": "Walk the Dog",
+		"done": false	
+}
+```
+to create a new todo item. We can handle the request from the controller:
+
+```javascript
+// api/controllers/todo-controller.js
+'use strict';
+
+var mongoose = require('mongoose'),
+
+// build an instance of a Todo Schema
+Todo = mongoose.model('Todo');
+
+module.exports = {
+
+    // function to read current todo list
+    readAll: function(req, res) {
+      ...
+    },
+
+    // function to create a new Todo
+    create: function(req, res) {
+      
+      // create a new instance of the Todo model
+      // set todo data (from the request)
+      var todo = {};
+      todo.text = req.body.text;
+      todo.done = req.body.done;
+
+      // save todo and check for errors
+      Todo.create(todo, function(err, todo) {
+
+        if (err) {
+
+          res.status(400).send(err);
+
+          return;
+
+        }
+
+        // echo the new created todo
+        res.json(todo);
+
+      });
+      
+    },
+
+    // function to get data about a Todo
+    read: function(req, res) {
+      // TODO
+    },
+
+    // function to updata data about a Todo
+    update: function(req, res) {
+      // TODO
+    },
+
+    // function to delete a Todo
+    delete: function(req, res) {
+      // TODO
+    }
+
+}
+```
+Now, sending a `POST 127.0.0.1/api/todos` with the body cointaining the following data:
+
+```javascript
+{
+		"text": "Walk the Dog",
+		"done": false	
+}
+```
+to our API we will receive an response containing the fresh new todo item:
+
+```javascript
+{
+		"text": "Walk the Dog",
+		"done": false,
+    __v: 0,
+    _id: "5a5f4fba87adcc530ee3c51c"
+}
+```
+note the `_id` automatically added by MongoDB upon creation of the new record.
+
+### Function to get a Todo
+
+Coming Soon.
+
+### Function to update a Todo
+
+Coming Soon.
+
+### Function to delete a Todo
+
+Coming Soon.
 
 ## The Full Code
 
