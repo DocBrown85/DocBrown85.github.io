@@ -1,0 +1,46 @@
+~~~
+//
+// RAII TEST
+//
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+class Bar {
+
+    public:
+    
+    Bar() {
+        std::cout << "ctor" << std::endl;
+    }
+    
+    ~Bar() {
+        std::cout << "dtor" << std::endl;
+    }
+    
+    int bar_ {0};
+    
+};
+
+void foo(Bar& b) {
+    
+    b.bar_ = 9;
+    
+    throw std::runtime_error("error");
+}
+
+void baz() {
+    Bar bar;
+    
+    foo(bar);
+}
+
+int main() {
+    try {
+        baz();
+    }
+    catch(...) {
+        std::cout << "exception handler" << std::endl;
+    }
+}
+~~~
