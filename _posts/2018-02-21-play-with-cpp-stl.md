@@ -1,3 +1,8 @@
+---
+layout: post
+title: Playing with C++ STL
+---
+
 ~~~
 #include <algorithm>    // for std::find
 #include <iostream>     
