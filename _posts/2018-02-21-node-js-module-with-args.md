@@ -3,6 +3,8 @@ layout: post
 title: Node.js Module with Arguments
 ---
 
+## How to build a Node.js Module with Arguments
+
 ```
 // module.js
 module.exports = function(configuration) {
