@@ -1,7 +1,6 @@
+## C++ R.A.I.I.
+
 ~~~
-//
-// RAII TEST
-//
 #include <iostream>
 #include <stdexcept>
 #include <string>
