@@ -1,3 +1,9 @@
+---
+layout: post
+title: Node.js Module with Arguments
+---
+
+```
 // module.js
 module.exports = function(configuration) {
      
@@ -36,3 +42,4 @@ var configuration = {
  var module = require('./module.js')(configuration);
  
  module.foo();
+```
