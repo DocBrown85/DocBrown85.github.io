@@ -3,6 +3,8 @@ layout: post
 title: Playing with C++ STL
 ---
 
+## Playing With C++ Standard Template Library
+
 ~~~
 #include <algorithm>    // for std::find
 #include <iostream>     
