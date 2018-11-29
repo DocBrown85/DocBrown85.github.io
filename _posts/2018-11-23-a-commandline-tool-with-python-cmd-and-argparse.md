@@ -32,7 +32,7 @@ class NameValuePairType(object):
             name = pair[0]
             value = ast.literal_eval(pair[1])
         except Exception as e:
-            raise argparse.ArgumentTypeError("invalid value")
+            raise argparse.ArgumentTypeError("invalid value: " + pair[1])
 
         return [name, value]
 
