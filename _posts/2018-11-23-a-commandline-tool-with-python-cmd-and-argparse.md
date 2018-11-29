@@ -15,6 +15,7 @@ help messages and errors.
 from cmd import Cmd
 import argparse
 
+
 class NameValuePairValidator(argparse._AppendAction):
     def __call__(self, parser, namespace, values, option_string=None):
         if not (2 == len(values)):
@@ -22,6 +23,7 @@ class NameValuePairValidator(argparse._AppendAction):
                 "%s takes 2 values in the form of name:value pair, %d given" % (option_string, len(values))
             )
         super(ParameterNameValuePairValidator, self).__call__(parser, namespace, values, option_string)
+
 
 class CommandLineTool(Cmd):
 
