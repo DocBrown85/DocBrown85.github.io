@@ -15,6 +15,14 @@ help messages and errors.
 from cmd import Cmd
 import argparse
 
+class NameValuePairValidator(argparse._AppendAction):
+    def __call__(self, parser, namespace, values, option_string=None):
+        if not (2 == len(values)):
+            raise argparse.ArgumentError(self,
+                "%s takes 2 values in the form of name:value pair, %d given" % (option_string, len(values))
+            )
+        super(ParameterNameValuePairValidator, self).__call__(parser, namespace, values, option_string)
+
 class CommandLineTool(Cmd):
 
 
@@ -48,6 +56,13 @@ class CommandLineTool(Cmd):
             default=self._defaults.PARAMETER_B,
             help="Parameter B Help"
         )
+        parser.add_argument('--parameter-pair',
+            required=True,
+            dest='parametersPairs',
+            type=lambda x: x.split(':', 2),
+            action=NameValuePairValidator,
+            help='the parameters list, in the form of name:value pairs'
+        )
         try:
             arguments = self._getCommandArguments(parser, args)
         except SystemExit as exc:
@@ -55,6 +70,7 @@ class CommandLineTool(Cmd):
 
         print(arguments.parameterA)
         print(arguments.parameterB)
+        print(arguments.parametersPairs)
 
 
     def do_quit(self, args):
