@@ -12,9 +12,9 @@ help messages and errors.
 
 ```python
 
-from cmd import Cmd
 import argparse
 import ast
+from cmd import Cmd
 
 
 class NameValuePairType(object):
