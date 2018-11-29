@@ -14,15 +14,27 @@ help messages and errors.
 
 from cmd import Cmd
 import argparse
+import ast
 
 
-class NameValuePairValidator(argparse._AppendAction):
-    def __call__(self, parser, namespace, values, option_string=None):
-        if not (2 == len(values)):
-            raise argparse.ArgumentError(self,
-                "%s takes 2 values in the form of name:value pair, %d given" % (option_string, len(values))
-            )
-        super(ParameterNameValuePairValidator, self).__call__(parser, namespace, values, option_string)
+class NameValuePairType(object):
+
+
+    def __init__(self):
+        pass
+
+
+    def __call__(self, value):
+        pair = value.split("=")
+        if not (2 == len(pair)):
+            raise argparse.ArgumentTypeError("invalid name=value pair")
+        try:
+            name = pair[0]
+            value = ast.literal_eval(pair[1])
+        except Exception as e:
+            raise argparse.ArgumentTypeError("invalid name=value pair")
+
+        return [name, value]
 
 
 class CommandLineTool(Cmd):
@@ -61,9 +73,9 @@ class CommandLineTool(Cmd):
         parser.add_argument('--parameter-pair',
             required=True,
             dest='parametersPairs',
-            type=lambda x: x.split(':', 2),
-            action=NameValuePairValidator,
-            help='the parameters list, in the form of name:value pairs'
+            type=NameValuePairType(),
+            action='append',
+            help='the parameters list, in the form of name=value pairs, if value is a string it needs to be enclosed in double quotes and watchout for spaces'
         )
         try:
             arguments = self._getCommandArguments(parser, args)
