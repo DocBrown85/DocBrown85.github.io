@@ -80,11 +80,13 @@ class CommandLineTool(Cmd):
         try:
             arguments = self._getCommandArguments(parser, args)
         except SystemExit as exc:
-            return
+            return 1
 
         print(arguments.parameterA)
         print(arguments.parameterB)
         print(arguments.parametersPairs)
+        
+        return 0
 
 
     def do_quit(self, args):
@@ -117,8 +119,11 @@ class CommandLineTool(Cmd):
 
 def main():
     prompt = CommandLineTool()
-    prompt.cmdloop()
-
+    if len(sys.argv) > 1:
+        rc = prompt.onecmd(' '.join(sys.argv[1:]))
+        exit(rc)
+    else:
+        prompt.cmdloop()
 
 if __name__ == '__main__':
     main()
