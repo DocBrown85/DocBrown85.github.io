@@ -12,9 +12,13 @@ help messages and errors.
 
 ```python
 
+#!/usr/bin/env python3
+
+
 import argparse
 import ast
 from cmd import Cmd
+import sys
 
 
 class NameValuePairType(object):
@@ -79,21 +83,23 @@ class CommandLineTool(Cmd):
         )
         try:
             arguments = self._getCommandArguments(parser, args)
-        except SystemExit as exc:
-            return 1
 
-        print(arguments.parameterA)
-        print(arguments.parameterB)
-        print(arguments.parametersPairs)
-        
-        return 0
+            print(arguments.parameterA)
+            print(arguments.parameterB)
+            print(arguments.parametersPairs)
+
+            return 0
+        except Exception as e:
+            # cannot avoid doing this if we do not want to halt the interpreter
+            # when in loop() mode
+            return None
 
 
     def do_quit(self, args):
         """
         Quits the program.
         """
-        print("bye")
+        print("bye!")
         raise SystemExit
 
 
@@ -113,19 +119,27 @@ class CommandLineTool(Cmd):
             argsList = args.split(" ")
         else:
             argsList = None
-        arguments = parser.parse_args(argsList)
-        return arguments
+        try:
+            arguments = parser.parse_args(argsList)
+            return arguments
+        except SystemExit:
+            pass
+        raise Exception
 
 
 def main():
     prompt = CommandLineTool()
     if len(sys.argv) > 1:
         rc = prompt.onecmd(' '.join(sys.argv[1:]))
-        exit(rc)
+        if rc == 0:
+            exit(0)
+        else:
+            exit(1)
     else:
         prompt.cmdloop()
 
 
 if __name__ == '__main__':
     main()
+
 ```
