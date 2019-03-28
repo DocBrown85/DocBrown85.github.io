@@ -18,6 +18,11 @@ help messages and errors.
 import argparse
 import ast
 from cmd import Cmd
+import os
+try:
+    import readline
+except ImportError:
+    readline = None
 import sys
 
 
@@ -43,6 +48,8 @@ class NameValuePairType(object):
 
 class CommandLineTool(Cmd):
 
+    _historyFile = os.path.expanduser('~/.cmdtool_history')
+    _historySize = 10000
 
     intro = 'Welcome to the CommandLineTool shell. Type help or ? to list commands.\n'
     prompt = '(CLI) '
@@ -51,6 +58,24 @@ class CommandLineTool(Cmd):
     def __init__(self, completekey='tab', stdin=None, stdout=None):
         Cmd.__init__(self, completekey=completekey, stdin=stdin, stdout=stdout)
         self._defaults = self.CommandLineToolDefaults()
+
+
+    def preloop(self):
+        self._loadHistory()
+
+
+    def postloop(self):
+        self._storeHistory()
+
+
+    def _loadHistory(self):
+        if readline and os.path.exists(self._historyFile):
+            readline.read_history_file(self._historyFile)
+
+    def _storeHistory(self):
+        if readline:
+            readline.set_history_length(self._historySize)
+            readline.write_history_file(self._historyFile)
 
 
     ############################################################################
@@ -136,7 +161,10 @@ def main():
         else:
             sys.exit(1)
     else:
-        prompt.cmdloop()
+        try:
+            prompt.cmdloop()
+        finally:
+            prompt._storeHistory()
 
 
 if __name__ == '__main__':
