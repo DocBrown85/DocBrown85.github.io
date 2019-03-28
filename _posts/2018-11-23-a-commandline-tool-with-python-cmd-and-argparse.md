@@ -48,8 +48,10 @@ class NameValuePairType(object):
 
 class CommandLineTool(Cmd):
 
+
     _historyFile = os.path.expanduser('~/.cmdtool_history')
     _historySize = 10000
+
 
     intro = 'Welcome to the CommandLineTool shell. Type help or ? to list commands.\n'
     prompt = '(CLI) '
