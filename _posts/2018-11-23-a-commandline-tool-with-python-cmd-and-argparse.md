@@ -132,9 +132,9 @@ def main():
     if len(sys.argv) > 1:
         rc = prompt.onecmd(' '.join(sys.argv[1:]))
         if rc == 0:
-            exit(0)
+            sys.exit(0)
         else:
-            exit(1)
+            sys.exit(1)
     else:
         prompt.cmdloop()
 
