@@ -72,6 +72,7 @@ class CommandLineTool(Cmd):
         if readline and os.path.exists(self._historyFile):
             readline.read_history_file(self._historyFile)
 
+
     def _storeHistory(self):
         if readline:
             readline.set_history_length(self._historySize)
